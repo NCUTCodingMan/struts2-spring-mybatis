@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+		
+	</package>
+	
+	<!-- 登录相关 -->
+	<package name="login" namespace="/login" extends="struts-default">
+		<!-- 拦截器 -->
+		<interceptors>
+			<!-- 登录拦截器,defaultStack是struts2自带的拦截器栈 -->
+			<interceptor name="loginInterceptor" class="com.rain.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="myDefaultInterceptor">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myDefaultInterceptor"></default-interceptor-ref>
+		
+		<!-- 设置全局result -->
+		<global-results>
+			<!-- type制定了请求的响应类似,有重定向与请求转发 -->
+			<result name="login" type="redirect">/login.jsp</result>
+			<result name="error" type="redirect">/error.jsp</result>
+		</global-results>
+	
+		<!-- login relevant -->
+		<action name="login" class="com.rain.action.LoginAction" method="login">
+			<result name="success">/index.jsp</result>
+			<result name="login">/login.jsp</result>
+		</action>
+	</package>
+		
+</struts>
